@@ -6,7 +6,7 @@
 .env
 .env.*
 !.env.example
-/*.bat
+*.bat
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 

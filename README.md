@@ -1,2 +1,2 @@
 # description
-Postgres (pg) queries with convenient return types
+Postgres (pg) queries with convenient return types.
