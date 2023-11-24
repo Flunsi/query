@@ -1,0 +1,30 @@
+{
+	"include": [
+		"vite.config.ts",
+		"src/**/*.ts",
+		"src/**/*.tsx",
+	],
+
+	"compilerOptions": {
+		"isolatedModules": true,
+		"declaration": true,
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"module": "ES2020",
+		"target": "ES2020",
+		"moduleResolution": "node",
+		"skipLibCheck": true,
+		"noEmit": true,
+		"strict": true,
+		"types": [ "vitest/globals" ],
+
+		"useDefineForClassFields": true,
+		"lib": [ "ES2020", "DOM", "DOM.Iterable" ],
+
+		/* Linting */
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+	},
+}

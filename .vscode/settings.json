@@ -1,0 +1,26 @@
+{
+	"[typescript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features",
+		"editor.formatOnSave": true,
+	},
+
+	// general
+	"editor.formatOnSave": true,
+	"editor.tabSize": 4,
+	"editor.indentSize": "tabSize",
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+	"files.trimTrailingWhitespace": true,
+
+	//json
+	"json.format.keepLines": true,
+
+	//svelte
+	"svelte.plugin.svelte.format.config.printWidth": 200,
+	"svelte.plugin.svelte.format.config.singleQuote": true,
+
+	// javascript / typescript
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"javascript.format.semicolons": "remove",
+	"typescript.format.semicolons": "remove",
+}
