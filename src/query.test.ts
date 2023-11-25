@@ -47,13 +47,13 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 	// query.field
 	const statementForField = 'SELECT f2 FROM vitest_raw_query WHERE id = {id}'
 	test('query.field', async () => {
-		const myNum = await query.field(statementForField, { id: 2 })
+		const myNum = await query.field<number>(statementForField, { id: 2 })
 		expect(myNum).toEqual(555)
 	})
 
 	// query.field with no result
 	test('query.field with no result', async () => {
-		const myNum = await query.field(statementForField, { id: 999 })
+		const myNum = await query.field<number>(statementForField, { id: 999 })
 		expect(myNum).toEqual(undefined)
 	})
 
@@ -69,6 +69,20 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 	test('query.row with no result', async () => {
 		const myObj = await query.row(statementForRow, { id: 999 })
 		expect(myObj).toEqual(undefined)
+	})
+
+
+	// query.rowAsArray
+	const statementForRowAsArray = 'SELECT id, f1, f2 FROM vitest_raw_query WHERE id = {id}'
+	test('query.rowAsArray', async () => {
+		const myAry = await query.rowAsArray(statementForRowAsArray, { id: 2 })
+		expect(myAry).toEqual([2, 444, 555])
+	})
+
+	// query.rowAsArray with no result
+	test('query.rowAsArray with no result', async () => {
+		const myAry = await query.rowAsArray(statementForRowAsArray, { id: 999 })
+		expect(myAry).toEqual(undefined)
 	})
 
 

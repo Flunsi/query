@@ -1,8 +1,8 @@
 {
 	"name": "@flunsi/query",
-	"version": "0.0.1",
-	"description": "Postgres (pg) queries with convenient return types",
-	"keywords": [ "postgres", "pg", "query", "queries", "types", "row", "column", "field" ],
+	"version": "0.0.2",
+	"description": "A simple wrapper around pg.query() for simple use cases",
+	"keywords": [ "postgres", "pg", "query", "queries", "return types", "types", "row", "column", "field" ],
 	"author": "Niklaus Flunser",
 	"license": "MIT",
 	"repository": {
