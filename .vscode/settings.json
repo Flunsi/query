@@ -11,6 +11,9 @@
 	"editor.detectIndentation": false,
 	"editor.insertSpaces": false,
 	"files.trimTrailingWhitespace": true,
+	"files.eol": "\r\n",
+	"files.insertFinalNewline": true,
+	"files.trimFinalNewlines": true,
 
 	//json
 	"json.format.keepLines": true,
@@ -23,4 +26,5 @@
 	"typescript.updateImportsOnFileMove.enabled": "always",
 	"javascript.format.semicolons": "remove",
 	"typescript.format.semicolons": "remove",
+	"javascript.suggestionActions.enabled": false,
 }

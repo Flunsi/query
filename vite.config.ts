@@ -10,4 +10,9 @@ export default defineConfig({
 		],
 		globals: true,
 	},
+	resolve: {
+		alias: {
+			'@flunsi/utility': './node_modules/@flunsi/utility/src',
+		},
+	}
 })
