@@ -49,6 +49,6 @@
 		"vitest": "^0.34.6"
 	},
 	"dependencies": {
-		"@flunsi/utility": "file:../utility"
+		"@flunsi/utility": "^0.0.3"
 	}
 }

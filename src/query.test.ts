@@ -71,6 +71,11 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 		expect(myObj).toEqual(undefined)
 	})
 
+	// query.row with multiple results and raiseErrorOnMultipleRows = true
+	test('query.row with multiple results and raiseErrorOnMultipleRows', () => {
+		expect(async () => { await query.row('SELECT id, f1 FROM vitest_raw_query', undefined, true) }).rejects.toThrow()
+	})
+
 
 	// query.rowAsArray
 	const statementForRowAsArray = 'SELECT id, f1, f2 FROM vitest_raw_query WHERE id = {id}'
@@ -84,6 +89,12 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 		const myAry = await query.rowAsArray(statementForRowAsArray, { id: 999 })
 		expect(myAry).toEqual(undefined)
 	})
+
+	// query.row with multiple results and raiseErrorOnMultipleRows = true
+	test('query.rowAsArray with multiple results and raiseErrorOnMultipleRows', () => {
+		expect(async () => { await query.rowAsArray('SELECT id, f1 FROM vitest_raw_query', undefined, true) }).rejects.toThrow()
+	})
+
 
 
 	// query.rows

@@ -18,19 +18,22 @@ export class Query {
 	}
 
 
-	public async row<Type extends QueryResultRow>(statement: string, params?: StringOrNumberObject) {
+	public async row<Type extends QueryResultRow>(statement: string, params?: StringOrNumberObject, raiseErrorOnMultipleRows = false) {
 		const result = await this._raw(statement, params)
 		const rows = result.rows
 
 		if (rows.length <= 0)
 			return undefined
 
+		if (rows.length > 1 && raiseErrorOnMultipleRows)
+			throw new Error(`Expected 1 row, got ${rows.length}`)
+
 		return rows[0] as Type
 	}
 
 
-	public async rowAsArray<Type extends Array<StringOrNumber>>(statement: string, params?: StringOrNumberObject) {
-		const firstRow = await this.row(statement, params)
+	public async rowAsArray<Type extends Array<StringOrNumber>>(statement: string, params?: StringOrNumberObject, raiseErrorOnMultipleRows = false) {
+		const firstRow = await this.row(statement, params, raiseErrorOnMultipleRows)
 		if (!firstRow)
 			return undefined
 

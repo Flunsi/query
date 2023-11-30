@@ -23,10 +23,10 @@
 		"strict": true,
 		"types": [ "vitest/globals" ],
 
-		"paths": {
-			"@flunsi/utility": [ "./node_modules/@flunsi/utility/src" ],
-			"@flunsi/utility/*": [ "./node_modules/@flunsi/utility/src/*" ]
-		},
+		// "paths": {
+		// 	"@flunsi/utility": [ "./node_modules/@flunsi/utility/src" ],
+		// 	"@flunsi/utility/*": [ "./node_modules/@flunsi/utility/src/*" ]
+		// },
 
 		"useDefineForClassFields": true,
 		"lib": [ "ES2020", "DOM", "DOM.Iterable" ],
