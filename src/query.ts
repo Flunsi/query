@@ -75,7 +75,12 @@ export class Query {
 
 	private async _raw(statement: string, params?: StringOrNumberObject) {
 		const statementReplaced = replacePlaceholderSql(statement, params)
-		const result = await this.pool.query(statementReplaced)
+		const result = await this.pool.query(statementReplaced).catch(error => {
+			console.log(statement)
+			console.log(params)
+			console.log(error.message)
+			throw new Error(error.message)
+		})
 		return result
 	}
 }
