@@ -1,14 +1,11 @@
-import type { Pool, QueryResultRow } from "pg"
+import type { Pool, PoolClient, QueryResultRow } from "pg"
 import { replacePlaceholderSql } from "./utility"
 import type { StringOrNumber, StringOrNumberObject } from './types'
 
 
 export class Query {
-	private pool: Pool
-
-
-	constructor(pool: Pool) {
-		this.pool = pool
+	constructor(connection: Pool | PoolClient) {
+		this.connection = connection
 	}
 
 
@@ -73,9 +70,15 @@ export class Query {
 	}
 
 
+	/*****************************************************************************************************/
+	//   Private
+	/*****************************************************************************************************/
+	private connection: Pool | PoolClient
+
+
 	private async _raw(statement: string, params?: StringOrNumberObject) {
 		const statementReplaced = replacePlaceholderSql(statement, params)
-		const result = await this.pool.query(statementReplaced).catch(error => {
+		const result = await this.connection.query(statementReplaced).catch(error => {
 			console.log(statement)
 			console.log(params)
 			console.log(error.message)
