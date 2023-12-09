@@ -1,4 +1,4 @@
-import { Query } from './query'
+import Query from './query'
 import 'dotenv/config'
 import pg from 'pg'
 const { Pool } = pg
@@ -8,10 +8,12 @@ const pool = new Pool({ connectionString: process.env.DB_URL })
 const query = new Query(pool)
 
 
+// ACHTUNG, ALLE Tests laufen parallel, trotz maxConcurrency = 1
+// Deshalb braucht jedes Test-File eine eigene Tabelle
 beforeAll(async () => {
-	await query.update(`DROP TABLE IF EXISTS "vitest_raw_query"`)
+	await query.update(`DROP TABLE IF EXISTS "vitest_query"`)
 	await query.update(
-		`CREATE TABLE "vitest_raw_query" (
+		`CREATE TABLE "vitest_query" (
 		"id" SERIAL PRIMARY KEY,
 		"f1" int2 NOT NULL DEFAULT 0,
 		"f2" int2 NOT NULL DEFAULT 0,
@@ -19,9 +21,8 @@ beforeAll(async () => {
 })
 
 
-// Achtung, ALLE Tests laufen parallel, deshalb braucht jedes Test-File eine eigene Tabelle
 afterAll(async () => {
-	await query.update(`DROP TABLE IF EXISTS "vitest_raw_query"`)
+	await query.update(`DROP TABLE IF EXISTS "vitest_query"`)
 })
 
 
@@ -32,9 +33,8 @@ afterAll(async () => {
 //   3  777  888  999
 
 describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
-
 	// Inserting rows and testing auto-increment
-	const statement = 'INSERT INTO vitest_raw_query (f1, f2, f3) VALUES ({f1}, {f2}, {f3}) returning id'
+	const statement = 'INSERT INTO vitest_query (f1, f2, f3) VALUES ({f1}, {f2}, {f3}) returning id'
 	test.each([
 		{ params: { f1: 111, f2: 222, f3: 333 }, expected: 1 },
 		{ params: { f1: 444, f2: 555, f3: 666 }, expected: 2 },
@@ -45,7 +45,7 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 
 
 	// query.field
-	const statementForField = 'SELECT f2 FROM vitest_raw_query WHERE id = {id}'
+	const statementForField = 'SELECT f2 FROM vitest_query WHERE id = {id}'
 	test('query.field', async () => {
 		const myNum = await query.field<number>(statementForField, { id: 2 })
 		expect(myNum).toEqual(555)
@@ -59,7 +59,7 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 
 
 	// query.row
-	const statementForRow = 'SELECT id, f1 FROM vitest_raw_query WHERE id = {id}'
+	const statementForRow = 'SELECT id, f1 FROM vitest_query WHERE id = {id}'
 	test('query.row', async () => {
 		const myObj = await query.row(statementForRow, { id: 2 })
 		expect(myObj).toEqual({ id: 2, f1: 444 })
@@ -73,12 +73,12 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 
 	// query.row with multiple results and raiseErrorOnMultipleRows = true
 	test('query.row with multiple results and raiseErrorOnMultipleRows', () => {
-		expect(async () => { await query.row('SELECT id, f1 FROM vitest_raw_query', undefined, true) }).rejects.toThrow()
+		expect(async () => { await query.row('SELECT id, f1 FROM vitest_query', undefined, true) }).rejects.toThrow()
 	})
 
 
 	// query.rowAsArray
-	const statementForRowAsArray = 'SELECT id, f1, f2 FROM vitest_raw_query WHERE id = {id}'
+	const statementForRowAsArray = 'SELECT id, f1, f2 FROM vitest_query WHERE id = {id}'
 	test('query.rowAsArray', async () => {
 		const myAry = await query.rowAsArray(statementForRowAsArray, { id: 2 })
 		expect(myAry).toEqual([2, 444, 555])
@@ -92,13 +92,13 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 
 	// query.row with multiple results and raiseErrorOnMultipleRows = true
 	test('query.rowAsArray with multiple results and raiseErrorOnMultipleRows', () => {
-		expect(async () => { await query.rowAsArray('SELECT id, f1 FROM vitest_raw_query', undefined, true) }).rejects.toThrow()
+		expect(async () => { await query.rowAsArray('SELECT id, f1 FROM vitest_query', undefined, true) }).rejects.toThrow()
 	})
 
 
 
 	// query.rows
-	const statementForRows = 'SELECT id, f1 FROM vitest_raw_query WHERE id >= {id}'
+	const statementForRows = 'SELECT id, f1 FROM vitest_query WHERE id >= {id}'
 	test('query.rows', async () => {
 		const myAry = await query.rows(statementForRows, { id: 2 })
 		expect(myAry).toEqual([{ id: 2, f1: 444 }, { id: 3, f1: 777 }])
@@ -112,7 +112,7 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 
 
 	// query.columnAsArray
-	const statementForColumnAsArray = 'SELECT f1 FROM vitest_raw_query WHERE id <= {id}'
+	const statementForColumnAsArray = 'SELECT f1 FROM vitest_query WHERE id <= {id}'
 	test('query.columnAsArray', async () => {
 		const myAry = await query.columnAsArray(statementForColumnAsArray, { id: 3 })
 		expect(myAry).toEqual([111, 444, 777])
@@ -127,13 +127,13 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 
 	// query.update / rowCount
 	test('query.update / rowCount', async () => {
-		const rowCount = await query.update('UPDATE vitest_raw_query SET f3 = 69 WHERE id >= {id}', { id: 2 })
+		const rowCount = await query.update('UPDATE vitest_query SET f3 = 69 WHERE id >= {id}', { id: 2 })
 		expect(rowCount).toEqual(2)
 	})
 
 	// verify update
 	test('verify update', async () => {
-		const myNum = await query.field('SELECT f3 FROM vitest_raw_query WHERE id = {id}', { id: 3 })
+		const myNum = await query.field('SELECT f3 FROM vitest_query WHERE id = {id}', { id: 3 })
 		expect(myNum).toEqual(69)
 	})
 })

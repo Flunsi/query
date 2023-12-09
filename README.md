@@ -32,7 +32,7 @@ If you don't like ORMs, but pg.query() is too painfull to work with, this packag
 ## Usage
 ```
 import Pool from 'pg-pool'
-import { Query } from '@flunsi/query'
+import Query from '@flunsi/query'
 
 const pool = new Pool({ connectionString: DB_URL })
 const query = new Query(pool)

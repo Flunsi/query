@@ -3,7 +3,7 @@ import { replacePlaceholderSql } from "./utility"
 import type { StringOrNumber, StringOrNumberObject } from './types'
 
 
-export class Query {
+export default class Query {
 	constructor(connection: Pool | PoolClient) {
 		this.connection = connection
 	}
@@ -73,10 +73,10 @@ export class Query {
 	/*****************************************************************************************************/
 	//   Private
 	/*****************************************************************************************************/
-	private connection: Pool | PoolClient
+	protected connection: Pool | PoolClient
 
 
-	private async _raw(statement: string, params?: StringOrNumberObject) {
+	protected async _raw(statement: string, params?: StringOrNumberObject) {
 		const statementReplaced = replacePlaceholderSql(statement, params)
 		const result = await this.connection.query(statementReplaced).catch(error => {
 			console.log(statement)
