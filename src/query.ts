@@ -3,7 +3,7 @@ import { replacePlaceholderSql } from "./utility"
 import type { StringOrNumber, StringOrNumberObject } from './types'
 
 
-export default class Query {
+export class Query {
 	constructor(connection: Pool | PoolClient) {
 		this.connection = connection
 	}

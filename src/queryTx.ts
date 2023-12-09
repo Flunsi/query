@@ -1,12 +1,12 @@
 import type { PoolClient } from "pg"
-import Query from "./query"
+import { Query } from "./query"
 
 
 /*****************************************************************************************************/
 //   query, but with transaction support
 //   Needs poolClient, not pool!
 /*****************************************************************************************************/
-export default class QueryTx extends Query {
+export class QueryTx extends Query {
 	constructor(poolClient: PoolClient) {
 		super(poolClient)
 	}
