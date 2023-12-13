@@ -57,6 +57,11 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 		expect(myNum).toEqual(undefined)
 	})
 
+	// query.field with multiple results and raiseErrorOnMultipleRows = true
+	test('query.field with multiple results and raiseErrorOnMultipleRows', () => {
+		expect(async () => { await query.field('SELECT f1 FROM vitest_query', undefined, true) }).rejects.toThrow()
+	})
+
 
 	// query.row
 	const statementForRow = 'SELECT id, f1 FROM vitest_query WHERE id = {id}'

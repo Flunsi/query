@@ -1,6 +1,6 @@
 {
 	"name": "@flunsi/query",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "A simple wrapper around pg.query() for simple use cases",
 	"keywords": [
 		"postgres",

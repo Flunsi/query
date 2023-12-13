@@ -38,8 +38,8 @@ export class Query {
 	}
 
 
-	public async field<Type extends StringOrNumber>(statement: string, params?: StringOrNumberObject) {
-		const firstRow = await this.row(statement, params)
+	public async field<Type extends StringOrNumber>(statement: string, params?: StringOrNumberObject, raiseErrorOnMultipleRows = false) {
+		const firstRow = await this.row(statement, params, raiseErrorOnMultipleRows)
 		if (!firstRow)
 			return undefined
 
@@ -79,9 +79,9 @@ export class Query {
 	protected async _raw(statement: string, params?: StringOrNumberObject) {
 		const statementReplaced = replacePlaceholderSql(statement, params)
 		const result = await this.connection.query(statementReplaced).catch(error => {
-			console.log(statement)
-			console.log(params)
-			console.log(error.message)
+			console.log('statement:', statement)
+			console.log('params:', params)
+			console.log('errorMessage:', error.message)
 			throw new Error(error.message)
 		})
 		return result
