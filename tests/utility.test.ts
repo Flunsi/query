@@ -1,5 +1,5 @@
-import { replacePlaceholderSql, escapeAll, escapeLiteral } from './utility'
-import type { StringOrNumberObject } from './types'
+import { replacePlaceholderSql, escapeAll, escapeLiteral } from '../src/utility'
+import type { StringOrNumberObject } from '../src/types'
 
 
 describe('escapeLiteral', () => {
