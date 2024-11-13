@@ -1,7 +1,8 @@
 import { Query } from '../src/query'
 import 'dotenv/config'
-import pg from 'pg'
-const { Pool } = pg
+// import pg from 'pg'
+// const { Pool } = pg
+import Pool from 'pg-pool'
 
 
 const pool = new Pool({ connectionString: process.env.DB_URL })
@@ -58,8 +59,8 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 	})
 
 	// query.field with multiple results and raiseErrorOnMultipleRows = true
-	test('query.field with multiple results and raiseErrorOnMultipleRows', () => {
-		expect(async () => { await query.field('SELECT f1 FROM vitest_query', undefined, true) }).rejects.toThrow()
+	test('query.field with multiple results and raiseErrorOnMultipleRows', async () => {
+		await expect(async () => { await query.field('SELECT f1 FROM vitest_query', undefined, true) }).rejects.toThrow()
 	})
 
 
@@ -77,8 +78,8 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 	})
 
 	// query.row with multiple results and raiseErrorOnMultipleRows = true
-	test('query.row with multiple results and raiseErrorOnMultipleRows', () => {
-		expect(async () => { await query.row('SELECT id, f1 FROM vitest_query', undefined, true) }).rejects.toThrow()
+	test('query.row with multiple results and raiseErrorOnMultipleRows', async () => {
+		await expect(async () => { await query.row('SELECT id, f1 FROM vitest_query', undefined, true) }).rejects.toThrow()
 	})
 
 
@@ -96,8 +97,8 @@ describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
 	})
 
 	// query.row with multiple results and raiseErrorOnMultipleRows = true
-	test('query.rowAsArray with multiple results and raiseErrorOnMultipleRows', () => {
-		expect(async () => { await query.rowAsArray('SELECT id, f1 FROM vitest_query', undefined, true) }).rejects.toThrow()
+	test('query.rowAsArray with multiple results and raiseErrorOnMultipleRows', async () => {
+		await expect(async () => { await query.rowAsArray('SELECT id, f1 FROM vitest_query', undefined, true) }).rejects.toThrow()
 	})
 
 
