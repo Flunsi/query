@@ -33,7 +33,7 @@ afterAll(async () => {
 //   2  444  555  666
 //   3  777  888  999
 
-describe('queryRows, queryRow, queryCell, queryUpdate', async () => {
+describe('query: queryRows, queryRow, queryCell, queryUpdate', async () => {
 	// Inserting rows and testing auto-increment
 	const statement = 'INSERT INTO vitest_query (f1, f2, f3) VALUES ({f1}, {f2}, {f3}) returning id'
 	test.each([

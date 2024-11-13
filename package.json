@@ -1,6 +1,6 @@
 {
 	"name": "@flunsi/query",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "A simple wrapper around pg.query() for simple use cases",
 	"keywords": [ "postgres", "pg", "query", "queries", "return types", "types", "row", "column", "field" ],
 	"author": "Niklaus Flunser",

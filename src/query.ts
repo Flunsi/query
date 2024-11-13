@@ -79,9 +79,10 @@ export class Query {
 	protected async _raw(statement: string, params?: StringOrNumberObject) {
 		const statementReplaced = replacePlaceholderSql(statement, params)
 		const result = await this.connection.query(statementReplaced).catch(error => {
-			console.log('statement:', statement)
-			console.log('params:', params)
-			console.log('errorMessage:', error.message)
+			console.error('ERROR')
+			console.error('statement:', statement)
+			console.error('params:', params)
+			console.error('errorMessage:', error.message)
 			throw new Error(error.message)
 		})
 		return result

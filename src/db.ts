@@ -16,6 +16,7 @@ interface PoolOptions extends ClientConfig {
 export class Db {
 	public query: Query
 
+
 	constructor(config: PoolOptions) {
 		this.pool = new PgPool(config)
 
@@ -36,6 +37,7 @@ export class Db {
 			await queryTx.commit()
 			return result
 		} catch (error) {
+			console.error("ERROR => DB-Transaction-Rollback.")
 			if (errorSource)
 				console.error("ErrorSource:", errorSource)
 			console.error("Error:", error)
