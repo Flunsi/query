@@ -2,7 +2,7 @@ import PgPool from 'pg-pool'
 import type { Pool, ClientConfig } from "pg"
 import { Query } from "./query"
 import { QueryTx } from "./queryTx"
-// "pg": "^8.13.1",
+
 
 // PoolOptions selber erstellt, weil importiertes Interface nicht funktioniert
 interface PoolOptions extends ClientConfig {
@@ -28,6 +28,8 @@ export class Db {
 	}
 
 
+	// Needs to be called like this: db.transaction(...)
+	// Do NOT destructure the object like this: const { transaction } = db !!!
 	public async transaction<ReturnType>(fn: (queryTx: QueryTx) => Promise<ReturnType>, errorSource = ''): Promise<ReturnType | undefined> {
 		const poolClient = await this.pool.connect()
 		const queryTx = new QueryTx(poolClient)
