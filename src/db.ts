@@ -5,7 +5,7 @@ import { QueryTx } from "./queryTx"
 
 
 // PoolOptions selber erstellt, weil importiertes Interface nicht funktioniert
-interface PoolOptions extends ClientConfig {
+export interface PoolOptions extends ClientConfig {
 	connectionTimeoutMillis?: number,
 	idleTimeoutMillis?: number,
 	max?: number,
