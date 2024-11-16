@@ -47,7 +47,7 @@ describe('transaction', async () => {
 	})
 
 	test('Rollback', async () => {
-		await db.query.field("TRUNCATE TABLE vitest_transaction")
+		await db.query.update("TRUNCATE TABLE vitest_transaction")
 		await db.query.field(statement, { f1: 11 })
 		await db.query.field(statement, { f1: 22 })
 

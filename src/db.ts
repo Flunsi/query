@@ -1,5 +1,9 @@
-import PgPool from 'pg-pool'
-import type { Pool, ClientConfig } from "pg"
+// import PgPool from 'pg-pool'
+// import { setTypeParser } from 'pg-types'
+
+import { Pool, types } from "pg"
+import type { ClientConfig } from "pg"
+
 import { Query } from "./query"
 import { QueryTx } from "./queryTx"
 
@@ -12,13 +16,16 @@ export interface PoolOptions extends ClientConfig {
 	allowExitOnIdle?: boolean
 }
 
+export type BigintParser = 'STRING' | 'NUMBER_OR_ERROR' | 'NUMBER_OR_STRING'
+
 
 export class Db {
 	public query: Query
 
+	constructor(config: PoolOptions, bigintParser: BigintParser = 'NUMBER_OR_ERROR') {
+		this.setBigintParser(bigintParser)
 
-	constructor(config: PoolOptions) {
-		this.pool = new PgPool(config)
+		this.pool = new Pool(config)
 
 		this.pool.on('error', function (error) {
 			console.error('POOL_ON_ERROR:', error)
@@ -51,8 +58,37 @@ export class Db {
 	}
 
 
+	public async end() {
+		await this.pool.end()
+	}
+
+
 	/*****************************************************************************************************/
 	//   private
 	/*****************************************************************************************************/
 	private pool: Pool
+
+
+	private setBigintParser(bigintParser: BigintParser) {
+		if (bigintParser === 'STRING') {
+			types.setTypeParser(20, function (val: string) {
+				return val
+			})
+		}
+		else if (bigintParser === 'NUMBER_OR_ERROR') {
+			types.setTypeParser(20, function (val: string) {
+				if (val.length <= 15)
+					return parseInt(val)
+				throw new Error("NUMBER_OR_ERROR: Bigint out of range.")
+
+			})
+		}
+		else if (bigintParser === 'NUMBER_OR_STRING') {
+			types.setTypeParser(20, function (val: string) {
+				if (val.length <= 15)
+					return parseInt(val)
+				return val
+			})
+		}
+	}
 }
